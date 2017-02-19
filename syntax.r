@@ -328,7 +328,7 @@ time-syntax: [
 	[
 		and [#":" digit]		; :##  
 		| sign				; +:, -:
-		| opt sign some digit   : +-##:
+		| opt sign some digit   	; +-##:
 	]
 	1 2 [
 		#":" not #"." [
