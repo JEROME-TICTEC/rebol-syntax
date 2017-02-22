@@ -123,6 +123,10 @@ alternative-syntax A111 decimal-syntax: [
 
 hex-digit: charset [#"0" - #"9" #"a" - #"f" #"A" - #"F"]
 quoted-char: complement charset [#"^/" #"^"" #"^^"]
+lower-char: charset [#"a" - #"z"] 
+upper-char: charset [#"A" - #"Z"] 
+letter-char: union lower-char upper-char
+
 non-open: complement charset [#"("]
 caret-notation: [
 	#"^^" [
@@ -172,6 +176,13 @@ braced-string: [
 ]
 
 string-syntax: [quoted-string | braced-string]
+utf-2: #[bitset! 64#{AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wAAAAA=}] 
+utf-3: #[bitset! 64#{AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAA=}] 
+utf-4: #[bitset! 64#{AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wA=}] 
+utf-5: #[bitset! 64#{AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8=}] 
+utf-b: #[bitset! 64#{AAAAAAAAAAAAAAAAAAAAAP//////////AAAAAAAAAAA=}] 
+utf-8: [utf-2 1 utf-b | utf-3 2 utf-b | utf-4 3 utf-b | utf-5 4 utf-b] 
+unprintable-chars: complement charset ["^I^J^M" #" " - #"~"] 
 
 binary-2: ["2#{" any [8 [any whitespace [#"0" | #"1"]]] any whitespace #"}"]
 binary-16: [opt "16" "#{" any [2 [any whitespace hex-digit]] any whitespace #"}"]
@@ -355,3 +366,4 @@ month-names: [
     "November" | "Novembe" | "Novemb" | "Novem" | "Nove" | "Nov" |
     "December" | "Decembe" | "Decemb" | "Decem" | "Dece" | "Dec"
 ]
+above-ascii: charset [#"^(80)" - #"^(FF)"]
